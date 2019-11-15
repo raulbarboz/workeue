@@ -12,8 +12,7 @@ export const startCreateUser = (userData = {}) => {
       name = '',
       lastName = '',
       email = '',
-      password = '',
-      subdomain=''
+      password = ''
     } = userData;
 
     //store Data
@@ -46,7 +45,6 @@ export const startCreateUser = (userData = {}) => {
     var errorCode = error.code;
     var errorMessage = error.message;
 
-
     if (errorCode == 'auth/weak-password') {
         return {error:'The password is too weak.'};
     } else {
@@ -58,14 +56,9 @@ export const startCreateUser = (userData = {}) => {
   }
 }
 
-
 export const login = (uid) => ({
   type: 'LOGIN',
   uid
-})
-
-export const logout = () => ({
-  type: 'LOGOUT'
 })
 
 export const startLogin = (email, password) => {
@@ -86,13 +79,21 @@ export const startLogin = (email, password) => {
             if(!errorCode){
                 dispatch(login(uid))
                 localStorage.setItem('uid', uid)
+                setTimeout(() => {
+                  localStorage.removeItem('uid')
+                  dispatch(logout())
+                },20 * 60 * 1000)
             }
         })
     }
 }
 
+export const logout = () => ({
+  type: 'LOGOUT'
+})
+
 export const startLogout = () => {
   return () => {
-      return firebase.auth().signOut();
+      return authProvider.signOut();
   }
 }
