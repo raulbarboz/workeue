@@ -87,3 +87,12 @@ export const logout = () => ({
   type: 'LOGOUT'
 })
 
+export const startLogout = () => {
+  return (dispatch) => {
+    return authProvider.signOut()
+    .then(() => {
+      dispatch(logout())
+    })
+  }
+}
+
