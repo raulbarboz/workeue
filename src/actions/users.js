@@ -78,11 +78,6 @@ export const startLogin = (email, password) => {
             }
             if(!errorCode){
                 dispatch(login(uid))
-                localStorage.setItem('uid', uid)
-                setTimeout(() => {
-                  localStorage.removeItem('uid')
-                  dispatch(logout())
-                },20 * 60 * 1000)
             }
         })
     }
@@ -92,8 +87,3 @@ export const logout = () => ({
   type: 'LOGOUT'
 })
 
-export const startLogout = () => {
-  return () => {
-      return authProvider.signOut();
-  }
-}
